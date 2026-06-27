@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tinyurl.com</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Pacifico&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background: #fff0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Nunito', sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+    .bubble-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.18;
+      animation: floatUp linear infinite;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 0.18; }
+      100% { transform: translateY(-700px) scale(1.1); opacity: 0; }
+    }
+    .confetti-dot {
+      position: absolute;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      animation: confFall linear infinite;
+    }
+    @keyframes confFall {
+      0%   { transform: translateY(-30px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+    .card {
+      position: relative;
+      z-index: 2;
+      background: #fff;
+      border-radius: 32px;
+      border: 4px solid rgba(232,56,56,0.25);
+      max-width: 500px;
+      width: 90%;
+      padding: 3rem 2.5rem 2.5rem;
+      text-align: center;
+      box-shadow: 0 8px 50px rgba(232,56,56,0.12);
+      margin: 2rem auto;
+    }
+    .badge {
+      display: inline-block;
+      background: #e83838;
+      color: #fff;
+      font-weight: 900;
+      font-size: 13px;
+      border-radius: 20px;
+      padding: 6px 20px;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.4rem;
+      text-transform: uppercase;
+    }
+    .main-title {
+      font-family: 'Pacifico', cursive;
+      font-size: 56px;
+      color: #e83838;
+      line-height: 1.15;
+      text-shadow: 3px 3px 0 #ffd6d6;
+    }
+    .name {
+      font-family: 'Pacifico', cursive;
+      font-size: 64px;
+      color: #b00b0b;
+      margin-bottom: 1.2rem;
+      text-shadow: 3px 3px 0 #ffaaaa;
+    }
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: center;
+      margin: 0.5rem 0 1.4rem;
+    }
+    .div-line { height: 3px; width: 64px; border-radius: 3px; }
+    .div-line.l { background: linear-gradient(to right, #fff0f0, #e83838); }
+    .div-line.r { background: linear-gradient(to left,  #fff0f0, #e83838); }
+    .cake-emoji { font-size: 34px; }
+    .message {
+      font-size: 17px;
+      color: #555;
+      line-height: 1.8;
+      font-weight: 700;
+      margin-bottom: 1.6rem;
+    }
+    .message span { color: #e83838; }
+
+    @media (max-width: 480px) {
+      .card {
+        width: 94%;
+        padding: 1.5rem 1.2rem 1.5rem;
+        border-radius: 24px;
+        margin: 0 auto;
+      }
+      .badge { font-size: 11px; padding: 4px 12px; margin-bottom: 1rem; }
+      .main-title { font-size: 38px; }
+      .name { font-size: 44px; margin-bottom: 0.9rem; }
+      .cake-emoji { font-size: 24px; }
+      .div-line { width: 40px; }
+      .divider { margin: 0.3rem 0 1rem; }
+      .message { font-size: 14px; line-height: 1.7; margin-bottom: 0; }
+    }
+    @media (max-width: 360px) {
+      .main-title { font-size: 32px; }
+      .name { font-size: 38px; }
+      .message { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bubble-bg" id="bubbles"></div>
+
+  <div class="card">
+    <div class="badge">🎂 Special Day Alert 🎂</div>
+    <div class="main-title">Happy</div>
+    <div class="main-title">Birthday</div>
+    <div class="name">Paul!</div>
+
+    <div class="divider">
+      <div class="div-line l"></div>
+      <span class="cake-emoji">🎂</span>
+      <div class="div-line r"></div>
+    </div>
+
+    <p class="message">
+      Wishing you a day as <span>wonderful, bright, and full of joy</span> as you make every day for those around you.<br><br>
+      May this year bring you <span>laughter, love, adventures</span>, and everything your heart desires. You deserve all the very best!<br><br>
+      Best wishes on your birthday, Paul!<br><br>
+      - Jen
+    </p>
+  </div>
+
+  <script>
+    const bg = document.getElementById('bubbles');
+    const bubbleColors = ['#e83838','#ff7070','#ffaaaa','#b00b0b','#ffd6d6','#ff4d4d'];
+    for (let i = 0; i < 28; i++) {
+      const b = document.createElement('div');
+      b.className = 'bubble';
+      const size = 18 + Math.random() * 52;
+      b.style.cssText = `width:${size}px;height:${size}px;background:${bubbleColors[Math.floor(Math.random()*bubbleColors.length)]};left:${Math.random()*100}%;bottom:${Math.random()*10-5}%;animation-duration:${5+Math.random()*8}s;animation-delay:${Math.random()*7}s;`;
+      bg.appendChild(b);
+    }
+    const confColors = ['#e83838','#ffffff','#ffaaaa','#b00b0b','#ff7070'];
+    for (let i = 0; i < 22; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti-dot';
+      c.style.cssText = `background:${confColors[Math.floor(Math.random()*confColors.length)]};left:${Math.random()*100}%;animation-duration:${3+Math.random()*5}s;animation-delay:${Math.random()*6}s;`;
+      bg.appendChild(c);
+    }
+
+    const notes = {
+      C4:261.63, D4:293.66, E4:329.63, F4:349.23,
+      G4:392.00, A4:440.00, B4:493.88,
+      C5:523.25, D5:587.33, E5:659.25, F5:698.46,
+      G5:783.99, A5:880.00
+    };
+    const song = [
+      ['G4',0.75],['G4',0.25],['A4',1],['G4',1],['C5',1],['B4',2],
+      ['G4',0.75],['G4',0.25],['A4',1],['G4',1],['D5',1],['C5',2],
+      ['G4',0.75],['G4',0.25],['G5',1],['E5',1],['C5',1],['B4',1],['A4',2],
+      ['F5',0.75],['F5',0.25],['E5',1],['C5',1],['D5',1],['C5',2]
+    ];
+    const BPM = 160;
+    const beat = 60 / BPM;
+
+    function playNote(ctx, freq, startTime, duration) {
+      const harmonics = [
+        { type: 'triangle', freq: 1,    gain: 0.5  },
+        { type: 'sine',     freq: 2,    gain: 0.25 },
+        { type: 'sine',     freq: 3,    gain: 0.1  },
+        { type: 'sine',     freq: 0.5,  gain: 0.15 },
+      ];
+      const master = ctx.createGain();
+      master.connect(ctx.destination);
+      master.gain.setValueAtTime(0, startTime);
+      master.gain.linearRampToValueAtTime(0.4, startTime + 0.01);
+      master.gain.exponentialRampToValueAtTime(0.18, startTime + 0.1);
+      master.gain.exponentialRampToValueAtTime(0.001, startTime + duration * 0.95);
+      harmonics.forEach(h => {
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = h.type;
+        osc.frequency.setValueAtTime(freq * h.freq, startTime);
+        g.gain.setValueAtTime(h.gain, startTime);
+        osc.connect(g);
+        g.connect(master);
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      });
+    }
+
+    function playSong() {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      let time = ctx.currentTime + 0.1;
+      song.forEach(([note, dur]) => {
+        playNote(ctx, notes[note], time, dur * beat);
+        time += dur * beat;
+      });
+    }
+
+    let played = false;
+
+    function showPlayBtn() {
+      if (document.getElementById('playBtn')) return;
+      const btn = document.createElement('div');
+      btn.id = 'playBtn';
+      btn.innerHTML = '🎵 Tap to play music';
+      btn.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:999;background:#e83838;color:#fff;font-family:Nunito,sans-serif;font-weight:900;font-size:14px;padding:10px 24px;border-radius:30px;cursor:pointer;letter-spacing:0.05em;box-shadow:0 4px 20px rgba(232,56,56,0.4);';
+      btn.onclick = () => { if (!played) { played = true; playSong(); } removeBtn(); };
+      document.body.appendChild(btn);
+    }
+
+    function removeBtn() {
+      const b = document.getElementById('playBtn');
+      if (b) b.remove();
+    }
+
+    function onFirstInteraction() {
+      if (!played) { played = true; playSong(); }
+      removeBtn();
+      document.removeEventListener('click', onFirstInteraction);
+      document.removeEventListener('touchstart', onFirstInteraction);
+      document.removeEventListener('keydown', onFirstInteraction);
+    }
+
+    window.addEventListener('load', () => {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        ctx.resume().then(() => {
+          if (ctx.state === 'running' && !played) {
+            played = true;
+            ctx.close();
+            playSong();
+            return;
+          }
+          ctx.close();
+          setTimeout(() => { if (!played) showPlayBtn(); }, 300);
+        }).catch(() => { ctx.close(); showPlayBtn(); });
+      } catch(e) { showPlayBtn(); }
+    });
+
+    document.addEventListener('click', onFirstInteraction);
+    document.addEventListener('touchstart', onFirstInteraction);
+    document.addEventListener('keydown', onFirstInteraction);
+  </script>
+</body>
+</html>
